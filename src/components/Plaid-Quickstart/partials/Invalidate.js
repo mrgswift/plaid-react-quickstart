@@ -8,14 +8,24 @@ class Invalidate extends Component {
         };
     }
     updateToken = (token) => {
-        this.setState({access_token: token}, this.props.clearall());
+        if (typeof token.error !== 'undefined') {
+            this.props.errmodal(token.error);
+        } else {
+            this.props.clearall();
+            const modalcontent = <Fragment>
+                <h3 className="box__heading">Access Token Rotation</h3>
+                <span>The ACCESS_TOKEN token was successfully changed to</span><br/>
+                <span style={{fontWeight: 600}}>{token}</span><br/>
+                <span>You can repeat testing with this value.</span>
+            </Fragment>;
+            this.props.modal(modalcontent);
+        }
     };
     invalidatebtn_click = (e) => {
         e.preventDefault();
         this.props.updatetoken(this.updateToken);
     };
     render() {
-        const {access_token} = this.state;
         return(
             <div className="item-data-row">
                 <div className="item-data-row__left">
@@ -37,18 +47,7 @@ class Invalidate extends Component {
                 </div>
 
                 <div className="item-data-row__response">
-                    <p id="invalidate-token-data" style={{display: 'inline-block', paddingTop: '10px'}}>
-                        {
-                        access_token !== null ?
-                            <Fragment>
-                                The ACCESS_TOKEN token was successfully changed to <br/>
-                                <span style={{fontWeight: 600}}>{access_token}</span><br/>
-                                You can repeat testing with this value.
-                            </Fragment>
-                            :
-                            null
-                        }
-                    </p>
+                    <p id="invalidate-token-data" style={{display: 'inline-block', paddingTop: '10px'}}/>
                 </div>
             </div>
         )

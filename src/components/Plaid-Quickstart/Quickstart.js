@@ -126,18 +126,21 @@ class Quickstart extends Component {
      */
     rotateAccessToken = (callback) => {
         const postdata = {};
+        const getType = {};
+        const isfunc = callback && getType.toString.call(callback) === '[object Function]';
         axios.post(process.env.REACT_APP_API_SERVER_URL + '/invalidate_access_token', postdata, this.prepareAuthHeaders()).then((res) => {
             if (res.data.error === null) {
                 this.setState({
                     access_token: res.data.access_token,
                 },() => {
-                    const getType = {};
-                    const isfunc = callback && getType.toString.call(callback) === '[object Function]';
                     if (isfunc) {
                         callback(res.data.access_token);
                     }
                 })
             } else {
+                if (isfunc) {
+                    callback(res.data);
+                }
                 console.error(res.data.error);
             }
         }).catch(function (error) {

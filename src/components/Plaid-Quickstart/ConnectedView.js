@@ -80,7 +80,7 @@ class ConnectedView extends Component {
                             <h3 className="box__heading">Item management</h3>
                             <Item apicall={apicall} cleardata={clearall} errmodal={this.errorModal}/>
                             <Accounts apicall={apicall} cleardata={clearall} errmodal={this.errorModal}/>
-                            <Invalidate clearall={this.clearall} updatetoken={rotatetoken} errmodal={this.errorModal}/>
+                            <Invalidate clearall={this.clearall} updatetoken={rotatetoken} errmodal={this.errorModal} modal={this.toggleModal}/>
                         </div>
                     </Fragment>
                 }
